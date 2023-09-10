@@ -1,0 +1,13 @@
+api_platform:
+    patch_formats:
+        json: 
+            - application/json
+            - application/merge-patch+json
+    formats:
+        json:
+            mime_types:
+                - application/json
+        # html format cannot be removed or swagger-ui will stop working
+        html:
+            mime_types:
+                - text/html
