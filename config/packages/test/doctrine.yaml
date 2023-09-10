@@ -1,0 +1,12 @@
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        path: '%kernel.project_dir%/var/%kernel.environment%_db.db'
+        # "TEST_TOKEN" is typically set by ParaTest
+        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+        # Overwrite defaults
+        server_version: ~
+        host: ~
+        port: ~
+        user: ~
+        password: ~

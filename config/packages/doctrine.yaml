@@ -1,10 +1,15 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
-
+        #url: '%env(resolve:DATABASE_URL)%'
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '15'
+        server_version: '%env(resolve:DATABASE_VERSION)%'
+        dbname: '%env(resolve:DATABASE_DB)%'
+        host: '%env(resolve:DATABASE_HOST)%'
+        port: '%env(resolve:DATABASE_PORT)%'
+        user: '%env(resolve:DATABASE_USER)%'
+        password: '%env(resolve:DATABASE_PASSWORD)%'
+        driver: '%env(resolve:DATABASE_DRIVER)%'
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
@@ -20,12 +25,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-
-when@test:
-    doctrine:
-        dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:
     doctrine:

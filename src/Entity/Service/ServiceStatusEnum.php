@@ -4,55 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity\Service;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\OpenApi\Model\Operation;
+use App\ApiResource\ServiceStatusEnumTrait;
 
-#[
-    ApiResource(
-        shortName: 'ServiceStatus',
-        paginationEnabled: false,
-    ),
-    GetCollection(
-        uriTemplate: '/service-status',
-        openapi: new Operation(
-            responses: [
-                200 => new \ApiPlatform\OpenApi\Model\Response(
-                    content: new \ArrayObject([
-                        'application/json' => [
-                            'schema' => [
-                                'type' => 'array',
-                                'items' => [
-                                    'type' => 'string'
-                                ]
-                            ]
-                        ],
-                    ])
-                )
-            ]
-        ),
-        provider: ServiceStatusEnum::class.'::getCases'
-    )
-]
+/**
+ * @method static self CREATING()
+ * @method static self STARTING()
+ * @method static self RUNNING()
+ * @method static self STOPPING()
+ * @method static self STOPPED()
+ */
 enum ServiceStatusEnum: string
 {
+    use ServiceStatusEnumTrait;
+
     case STATUS_CREATING = 'creating';
     case STATUS_STARTING = 'starting';
     case STATUS_RUNNING = 'running';
     case STATUS_STOPPING = 'stopping';
-
-    public function getId(): string
-    {
-        return $this->name;
-    }
-
-    public static function getCases(): array
-    {
-        $out = [];
-        foreach (self::cases() as $case)
-        {
-            $out[] = $case->value;
-        }
-        return $out;
-    }
+    case STATUS_STOPPED = 'stopped';
 }

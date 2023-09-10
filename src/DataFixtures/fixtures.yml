@@ -1,0 +1,42 @@
+App\Entity\Service\ServiceTypeEnum:
+  typeCSGO:
+    __factory: { CSGO: [] }
+
+App\Entity\Service\ServiceStatusEnum:
+  statusCreating:
+    __factory: { CREATING: [] }
+  statusStarting:
+    __factory: { STARTING: [] }
+  statusRunning:
+    __factory: { CREATING: [] }
+  statusStopping:
+    __factory: { STOPPING: [] }
+  statusStopped:
+    __factory: { STOPPED: [] }
+  status1:
+    __factory: { CREATING: [] }
+  status2:
+    __factory: { STARTING: [] }
+  status3:
+    __factory: { CREATING: [] }
+  status4:
+    __factory: { STOPPING: [] }
+  status5:
+    __factory: { STOPPED: [] }
+
+App\Entity\Service:
+  service{1..50}:
+    __construct:
+      hostName: '<name()> <current()>'
+      type: '@typeCSGO'
+      status: '@status*'
+      ip: null
+      port: null
+      properties:
+        slots: 12
+        rconPassword: '123456'
+        joinPassword: '123456'
+        mapGroup: 'mg_bomb'
+        map: 'de_mirage'
+        tickrate: 128
+        vac: true
