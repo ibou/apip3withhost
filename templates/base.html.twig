@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>
@@ -9,18 +9,15 @@
         </title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
-            <link
-                href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-                rel="stylesheet"
-            />
-            <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-                integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-                crossorigin="anonymous"
-                referrerpolicy="no-referrer"
-            />
-            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+            <link rel="stylesheet" href="{{ asset('styles/output.css') }}">
+            <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
+            <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+                  integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+                  integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer">
         {% endblock %}
 
         {% block javascripts %}
@@ -28,12 +25,658 @@
         {% endblock %}
     </head>
     <body id="root" class="bg-slate-600">
-        <div class="flex items-center justify-center h-screen bg-slate-900 text-white">
-            <a href="#" id="login" class="bg-steam-lightGray text-xl px-5 py-3 rounded-md font-bold flex items-center space-x-4 hover:bg-gray-600 transition duration-75">
-                <i class="fa-brands fa-steam text-2xl"></i>
-                <span>Login with Steam</span>
-            </a>
-        </div>
+    <main class="flex">
+        <!-- mobile -->
+        <nav class="absolute top-0 w-full left-0 bg-dark lg:hidden z-50">
+            <div
+                    class="py-4 flex items-center justify-between relative z-50 max-screen">
+                <a href="/index.html" class="flex items-center gap-2">
+                    <image src="{{ asset("/image/logo.png") }}" alt="logo" />
+                </a>
+
+                <div class="flex items-center gap-4">
+                    <button
+                            id="mobile-btn"
+                            class="lg:hidden text-white text-4xl hover:text-secondary">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <aside
+                id="mobile-menu"
+                class="fixed w-full h-[100dvh] top-0 left-0 bg-dark z-40 menu-animation border-t border-white -translate-y-full lg:hidden">
+            <div class="flex flex-col justify-between px-6 h-full">
+                <div class="flex flex-col gap-12 mt-12 w-full pt-12">
+                    <ul class="flex flex-col gap-2 text-white font-medium">
+                        <li>
+                            <a
+                                    href="/index.html"
+                                    class="flex items-center gap-4 bg-primary px-3 py-4 2xl:py-5 rounded-xl">
+                                <img src="{{ asset("/image/Server.svg") }}" alt="" />
+                                <span>Servers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/index.html">
+                                <img src="{{ asset("/image/Players.svg") }}" alt="" />
+                                <span>Players</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/index.html">
+                                <img src="{{ asset("/image/Forum.svg") }}" alt="" />
+                                <span>Forum</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/users.html">
+                                <img src="{{ asset("/image/Users.svg") }}" alt="" />
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/index.html">
+                                <img src="{{ asset("/image/Support.svg") }}" alt="" />
+                                <span>Support</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex items-center border-t py-4">
+                    <button
+                            class="text-white flex items-center gap-4 px-3 py-4 2xl:py-5 rounded-xl w-full">
+                        <img src="{{ asset("/image/Login.svg") }}" alt="" /> Login
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- desktop -->
+        <aside id="desktop-menu"
+               class="bg-dark fixed flex flex-col justify-between top-0 h-screen w-[300px] px-4 transition-all duration-300 max-lg:hidden">
+            <div
+                    class="flex justify-center items-center h-[75px] 2xl:h-[100px] border-b border-[#5D696F]">
+                <a href="/index.html"><img src="{{ asset("/image/logo.png") }}" alt="" /></a>
+            </div>
+            <div class="flex-1 py-4">
+                <ul class="flex flex-col gap-2 text-white font-medium">
+                    <li>
+                        <a href="/index.html"
+                           class="flex items-center gap-4 bg-primary px-3 py-4 2xl:py-5 rounded-xl">
+                            <img src="{{ asset("/image/Server.svg") }}" alt="" />
+                            <span>Servers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/index.html">
+                            <img src="{{ asset("/image/Players.svg") }}" alt="" />
+                            <span>Players</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/index.html">
+                            <img src="{{ asset("/image/Forum.svg") }}" alt="" />
+                            <span>Forum</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/users.html">
+                            <img src="{{ asset("/image/Users.svg") }}" alt="" />
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/index.html">
+                            <img src="{{ asset("/image/Support.svg") }}" alt="" />
+                            <span>Support</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div
+                    class="flex items-center h-[75px] 2xl:h-[100px] border-t border-[#5D696F]">
+                <button
+                        class="text-white flex items-center gap-4 px-3 py-4 2xl:py-5 rounded-xl w-full">
+                    <img src="{{ asset("/image/Login.svg") }}" alt="" /> Login
+                </button>
+            </div>
+            <button
+                    id="toggle-aside"
+                    class="absolute -right-4 -translate-y-1/2 top-[75px] 2xl:top-[100px] h-9 aspect-square bg-primary rounded-full">
+                <i class="bi bi-chevron-left" style="color: white"></i>
+            </button>
+        </aside>
+
+        <section
+                class="max-lg:pt-24 w-full min-h-screen lg:ml-[300px] p-4 lg:p-8 text-dark"
+                id="main">
+            <div
+                    class="max-w-screen-2xl mx-auto flex flex-col justify-between w-full gap-6 h-full">
+                <div class="flex flex-col gap-4">
+                    <!-- 1 -->
+                    <div
+                            class="flex justify-between flex-wrap gap-4 bg-white p-4 rounded-2xl">
+                        <div class="flex flex-col">
+                            <ul class="flex items-center gap-2 text-gray-2">
+                                <li>
+                                    <a href="/index.html">
+                                        <img src="{{ asset("/image/Server2.svg") }}" alt="" />
+                                    </a>
+                                </li>
+                                <span>/</span>
+                                <li>
+                                    <a href="/index.html"> Dashboard </a>
+                                </li>
+                                <span>/</span>
+                                <li>
+                                    <a href="/index.html"> Server </a>
+                                </li>
+                            </ul>
+                            <h2 class="text-xl font-bold">Server</h2>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <a
+                                    href="./create-server.html"
+                                    class="btn border border-dark flex-c gap-2 hover:bg-gray-100 px-6">
+                                <i
+                                        class="bi bi-plus-circle"
+                                        style="color: black; font-size: 1rem"></i>
+                                Create Server
+                            </a>
+                            <button id="login" class="btn btn-main border border-dark flex-c gap-2">
+                                <i class="fa-brands fa-steam text-2xl"></i> Login
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 2 -->
+                    <div
+                            class="flex justify-between flex-col lg:flex-row gap-4 bg-white p-4 rounded-2xl relative">
+                        <div
+                                class="absolute top-1/2 left-0 w-1 bg-green h-24 lg:h-12 rounded-tr-xl rounded-br-xl -translate-y-1/2"></div>
+                        <div class="flex items-center justify-center">
+                            <div
+                                    class="flex flex-col justify-center md:flex-row gap-4 2xl:gap-8 items-center">
+                                <div>
+                                    <img
+                                            src="{{ asset("/image/logo-black.png") }}"
+                                            alt=""
+                                            class="md:border-r border-dark pr-4 2xl:pr-8 flex-shrink-0" />
+                                </div>
+                                <div
+                                        class="flex flex-wrap gap-4 items-center text-sm 2xl:text-base">
+                                    <div>
+                                        <p class="text-gray-2">
+                                            Host Name :
+                                            <span class="text-dark">My Supercool Server</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-2">
+                                            Location : <span class="text-dark">Poland</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-2">
+                                            Players : <span class="text-dark">10/12</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-2">
+                                            Map : <span class="text-dark">De_Mirage</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 justify-center">
+                            <button
+                                    class="btn border border-dark hover:bg-gray-100 flex-c gap-2 px-4 py-2">
+                                <i class="bi bi-arrow-repeat" style="font-size: 1.25rem"></i>
+                            </button>
+                            <button
+                                    class="btn bg-green hover:bg-green/90 text-white flex-c gap-2 py-2">
+                                <i class="bi bi-broadcast"></i>
+                                Online
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="serverActions" class="flex items-center gap-4 flex-wrap">
+                        <button class="modal3-toggle">
+                            <img src="{{ asset("/image/Stop.svg") }}" alt="" /> Stop
+                        </button>
+                        <button class="modal1-toggle">
+                            <img src="{{ asset("/image/Start.svg") }}" alt="" /> Start
+                        </button>
+                        <button class="modal2-toggle">
+                            <img src="{{ asset("/image/Refresh.svg") }}" alt="" /> Restart
+                        </button>
+                        <button>
+                            <img src="{{ asset("/image/Console.svg") }}" alt="" /> Console
+                        </button>
+                        <button>
+                            <img src="{{ asset("/image/Logs.svg") }}" alt="" /> Logs
+                        </button>
+                        <button class="btn bg-primary text-white hover:bg-primary/90 flex-c gap-2">
+                            <img src="{{ asset("/image/Edit.svg") }}" alt="" /> Edit
+                        </button>
+                    </div>
+                </div>
+
+                <div id="table-container" class="flex justify-between bg-white p-4 rounded-2xl flex-1 lg:max-w-[calc(100vw-385px)]">
+                    <div class="relative overflow-x-auto overflow-y-auto max-h-[500px] w-full custom-scrollbar">
+                        <table class="w-full text-sm text-left overflow-x-auto border-separate border-spacing-y-0">
+                            <thead class="text-xs text-gray-2 font-normal">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Player</th>
+                                <th scope="col">Score</th>
+                                <th scope="col">Team</th>
+                                <th scope="col">Kills</th>
+                                <th scope="col">Deaths</th>
+                                <th scope="col">K.D</th>
+                                <th scope="col">HS</th>
+                                <th scope="col">HS%</th>
+                                <th scope="col">Online</th>
+                            </tr>
+                            </thead>
+                            <tbody class="overflow-x-auto w-full whitespace-nowrap">
+                            <!-- 1 -->
+                            <tr class="bg-white">
+                                <th scope="row" class="mb-4">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img src="{{ asset("/image/folder.svg") }}"
+                                             alt=""
+                                             class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs">1</span>
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img src="{{ asset("/image/player-1.png") }}"
+                                             alt=""
+                                             class="rounded-full" />
+                                        <span class="text-primary text-sm">Skromp</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+
+                            <!-- 2 -->
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img
+                                                src="{{ asset("/image/folder.svg") }}"
+                                                alt=""
+                                                class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs"
+                                        >2</span
+                                        >
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img
+                                                src="{{ asset("/image/player-1.png") }}"
+                                                alt=""
+                                                class="rounded-full" />
+                                        <span class="text-primary text-sm">Wotah</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+
+                            <!-- 3 -->
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img
+                                                src="{{ asset("/image/folder.svg") }}"
+                                                alt=""
+                                                class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs"
+                                        >3</span
+                                        >
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img
+                                                src="{{ asset("/image/player-1.png") }}"
+                                                alt=""
+                                                class="rounded-full" />
+                                        <span class="text-primary text-sm">Shadow</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+
+                            <!-- 4 -->
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img
+                                                src="{{ asset("/image/folder.svg") }}"
+                                                alt=""
+                                                class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs"
+                                        >4</span
+                                        >
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img
+                                                src="{{ asset("/image/player-1.png") }}"
+                                                alt=""
+                                                class="rounded-full" />
+                                        <span class="text-primary text-sm">Rere</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+
+                            <!-- 5 -->
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img
+                                                src="{{ asset("/image/folder.svg") }}"
+                                                alt=""
+                                                class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs"
+                                        >5</span
+                                        >
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img
+                                                src="{{ asset("/image/player-1.png") }}"
+                                                alt=""
+                                                class="rounded-full" />
+                                        <span class="text-primary text-sm">Langyt</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+
+                            <!-- 6   -->
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="relative flex-c flex-shrink-0">
+                                        <img
+                                                src="{{ asset("/image/folder.svg") }}"
+                                                alt=""
+                                                class="flex-shrink-0 min-w-[24px]" />
+                                        <span class="absolute text-white abs-c mt-0.5 text-xs"
+                                        >6</span
+                                        >
+                                    </div>
+                                </th>
+                                <td>
+                                    <a href="/index.html" class="flex items-center gap-1">
+                                        <img
+                                                src="{{ asset("/image/player-1.png") }}"
+                                                alt=""
+                                                class="rounded-full" />
+                                        <span class="text-primary text-sm">Scib</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    57385
+                                </td>
+                                <td>
+                                    CT
+                                </td>
+                                <td>
+                                    1052
+                                </td>
+                                <td>
+                                    21-03-2022
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        2.00 <img src="{{ asset("/image/trending-up.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-1">
+                                        139 <img src="{{ asset("/image/pulse.svg") }}" alt="" />
+                                    </div>
+                                </td>
+                                <td>
+                                    13%
+                                </td>
+                                <td>
+                                    2:14 AM
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <footer
+                        class="flex flex-col md:flex-row justify-center md:justify-between flex-wrap gap-4 items-center text-gray-2">
+                    <div>
+                        <p>Copyright © 2022-2023 CSGO Server Hosting.</p>
+                    </div>
+                    <div class="flex items-center gap-4 xl:gap-8 2xl:gap-12">
+                        <a href="/index.html" class="hover:underline">Terms of Service</a>
+                        <a href="/index.html" class="hover:underline">Privacy Policy</a>
+                        <a href="/index.html" class="hover:underline">Refund Policy</a>
+                    </div>
+                </footer>
+            </div>
+            <!-- modal 1 server start -->
+            <div
+                    id="modal1"
+                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 hidden modal-animation">
+                <div
+                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+                    <img src="{{ asset("/image/running.svg") }}" alt="running" class="w-[40%]" />
+                    <div>
+                        <h3 class="text-2xl 2xl:text-3xl font-semibold">
+                            Server Running
+                        </h3>
+                        <p class="text-sm 2xl:text-base font-medium">
+                            Server is already running.
+                        </p>
+                    </div>
+                    <div class="w-full">
+                        <button class="btn btn-main w-full modal1-toggle">OK</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- modal 2 server restart -->
+            <div
+                    id="modal2"
+                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal-animation hidden">
+                <div
+                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+                    <img src="{{ asset("/image/refreshing.svg") }}" alt="running" class="w-[40%]" />
+                    <div>
+                        <h3 class="text-2xl 2xl:text-3xl font-semibold">
+                            Starting Server
+                        </h3>
+                        <p class="text-sm 2xl:text-base font-medium">
+                            Server is starting now
+                        </p>
+                    </div>
+                    <div class="w-full">
+                        <button class="btn btn-main w-full modal2-toggle">OK</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- modal 3 server stop -->
+            <div
+                    id="modal3"
+                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 modal-animation hidden">
+                <div
+                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+                    <img src="{{ asset("/image/stopping.svg") }}" alt="running" class="w-[40%]" />
+                    <div>
+                        <h3 class="text-2xl 2xl:text-3xl font-semibold">Stop Server</h3>
+                        <p class="text-sm 2xl:text-base font-medium">
+                            Are you sure you want to stop the server?
+                        </p>
+                    </div>
+                    <div class="w-full flex flex-col gap-4">
+                        <button class="btn btn-main w-full modal3-toggle">OK</button>
+                        <button class="w-full modal2-toggle modal3-toggle">No</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{#        <div class="flex items-center justify-center h-screen bg-slate-900 text-white">#}
+{#            <a href="#" id="login" class="bg-steam-lightGray text-xl px-5 py-3 rounded-md font-bold flex items-center space-x-4 hover:bg-gray-600 transition duration-75">#}
+{#                <i class="fa-brands fa-steam text-2xl"></i>#}
+{#                <span>Login with Steam</span>#}
+{#            </a>#}
+{#        </div>#}
         {% block body %}{% endblock %}
     </body>
 </html>

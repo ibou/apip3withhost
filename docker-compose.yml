@@ -4,6 +4,7 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${DATABASE_VERSION:-15}-alpine
+    container_name: postgres
     environment:
       POSTGRES_DB: ${DATABASE_DB:-app}
       # You should definitely change the password in production
@@ -13,9 +14,43 @@ services:
       - database_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
+    networks:
+      default:
+        ipv4_address: 172.19.0.3
 ###< doctrine/doctrine-bundle ###
+  rabbitmq:
+    image: rabbitmq:3.12.4-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      default:
+        ipv4_address: 172.19.0.4
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  redis:
+    image: redis:7.2.1-alpine
+    container_name: redis
+    networks:
+      default:
+        ipv4_address: 172.19.0.5
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.19.0.1/16
 
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+  rabbitmq-data:

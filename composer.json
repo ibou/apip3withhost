@@ -22,6 +22,7 @@
         "symfony/expression-language": "6.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/messenger": "6.3.*",
         "symfony/property-access": "6.3.*",
         "symfony/property-info": "6.3.*",
         "symfony/runtime": "6.3.*",
@@ -30,8 +31,7 @@
         "symfony/twig-bundle": "6.3.*",
         "symfony/uid": "6.3.*",
         "symfony/validator": "6.3.*",
-        "symfony/yaml": "6.3.*",
-        "symfonycasts/tailwind-bundle": "^0.1.5"
+        "symfony/yaml": "6.3.*"
     },
     "config": {
         "allow-plugins": {

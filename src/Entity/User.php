@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\OpenApi\Model\Operation;
+use App\ApiResource\SteamAuthParameters;
 use App\Controller\SteamAuthController;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,31 +27,8 @@ use Symfony\Component\Uid\Uuid;
         uriTemplate: '/auth-via-steam',
         controller: SteamAuthController::class,
         openapi: new Operation(
-            parameters: [
-                [
-                    "name" => "openid.ns",
-                    "in" => "query",
-                    "description" => "",
-                    "required" => "true",
-                    "type" => "string",
-                ],
-                [
-                    "name" => "openid.mode",
-                    "in" => "query",
-                    "description" => "",
-                    "required" => "true",
-                    "type" => "string",
-                ],
-                [
-                    "name" => "openid.op_endpoint",
-                    "in" => "query",
-                    "description" => "",
-                    "required" => "true",
-                    "type" => "string",
-                ],
-            ]
+            parameters: SteamAuthParameters::PARAMETERS
         ),
-        normalizationContext: ['wtf'],
         read: false,
         name: 'auth-via-steam',
     ),
@@ -64,9 +42,6 @@ class User
     #[Groups(['user:read'])]
     private ?Uuid $id;
 
-    #[Groups(['wtf'])]
-    private string $something = 'aaaaaa';
-
     public function __construct(?Uuid $id = null)
     {
         $this->id = $id ?? Uuid::v7();
@@ -75,10 +50,5 @@ class User
     public function getId(): ?Uuid
     {
         return $this->id;
-    }
-
-    public function getSomething(): string
-    {
-        return $this->something;
     }
 }

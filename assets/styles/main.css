@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;600;700;900&display=swap');
+
+@layer components {
+    .flex-c {
+        @apply flex justify-center items-center text-center
+    }
+    .abs-c {
+        @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute
+    }
+    .btn {
+        @apply py-2 px-4 2xl:py-3 2xl:px-6 text-sm 2xl:text-base rounded-md font-semibold transition-all duration-300 ease-in-out leading-normal
+    }
+    .btn-main {
+        @apply bg-dark hover:bg-dark/90 text-white btn-shadow
+    }
+    .btn-secondary {
+        @apply bg-white border border-white hover:border-primary text-primary  hover:bg-transparent
+    }
+    .min-h-dscreen {
+        @apply min-h-[100dvh]
+    }
+    .max-w-modal {
+        @apply w-screen md:max-w-2xl
+    }
+    .max-screen {
+        @apply px-4 xl:px-0 max-w-screen-lg xl:max-w-[1240px] 2xl:max-w-[1400px] 3xl:max-w-[1800px]  mx-auto
+    }
+    .td-300 {
+        transition: all 300ms ease-out;
+    }
+    #desktop-menu ul li > a {
+        @apply flex items-center gap-4 hover:bg-primary/20 px-3 py-4 2xl:py-5 rounded-xl
+    }
+    #serverActions > button:not(.bg-primary) {
+        @apply btn btn-main border border-dark flex-c gap-2
+    }
+    #table-container thead > tr > th {
+        @apply px-6 py-3
+    }
+    #table-container thead > tr > th:not(:first-child) {
+        @apply font-normal
+    }
+    #table-container tbody > tr > td {
+        @apply px-6 py-2 border-t border-b border-[#E9EFF4]
+    }
+    #table-container tbody > tr > td:nth-child(2) {
+        @apply border-l
+    }
+    #table-container tbody > tr > td:last-child {
+        @apply border-r
+    }
+    #table-container tbody > tr:hover {
+        @apply bg-slate-100
+    }
+    #table-container tbody > tr:hover th {
+        @apply bg-white
+    }
+    #table-container tbody > tr th {
+        @apply py-4 pr-4 lg:px-4
+    }
+}
+
+.btn-shadow {
+    box-shadow: 0 14px 20px 0 rgba(0, 0, 0, 0.30);
+}

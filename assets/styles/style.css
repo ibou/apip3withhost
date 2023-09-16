@@ -1,0 +1,147 @@
+:root {
+    --dark: #292D35;
+    --primary: #E43371;
+}
+
+body {
+    background-color: #EDEFF2;
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    border-radius: 18px;
+    background-color: #92929252;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    background-color: #92929252;
+}
+
+@media (max-width: 1024px) {
+    .custom-scrollbar3::-webkit-scrollbar {
+        height: 6px;
+        width: 6px;
+        background-color: #92929252;
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+
+    background-color: var(--primary);
+}
+
+
+.menu-animation {
+    will-change: transform, opacity;
+    contain: layout style;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform .8s cubic-bezier(.52, .16, .04, 1);
+}
+
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 52px;
+    height: 44px;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 44px;
+    width: 44px;
+    background-color: transparent;
+    border: #E43371 1px solid;
+    border-radius: 10px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: transparent;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: transparent;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    content: url('/assets/checkmark.svg');
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 1024px) {
+    .checkbox-container {
+
+        padding-left: 32px;
+        height: 24px;
+
+
+    }
+
+    .checkmark {
+
+        height: 24px;
+        width: 24px;
+        border-radius: 4px;
+    }
+
+    .checkbox-container .checkmark:after {
+        content: url('/assets/checkmark.svg');
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.75);
+        width: 24px;
+        height: 24px;
+    }
+
+}
+
+
+.modal-animation {
+    animation: ma 200ms forwards ease-in;
+    opacity: 0;
+}
+
+@keyframes ma {
+    to {
+        opacity: 1;
+    }
+}

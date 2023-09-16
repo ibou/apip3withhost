@@ -18,6 +18,8 @@ bin/console doctrine:fixtures:load --no-interaction
 
 ## Frontend
 ```bash
+yarn install
+yarn run dev
 bin/console asset-map:compile --clean
 ```
 
