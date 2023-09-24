@@ -1,4 +1,4 @@
 import FrontController from './lib/front.js';
 
-const frontController = new FrontController();
-frontController.init();
+window.app = new FrontController(true);
+window.app.init();

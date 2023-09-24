@@ -5,13 +5,19 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            steamAuth:
+                dsn: 'amqp://%env(RABBITMQ_USER)%:%env(RABBITMQ_PASS)%@%env(RABBITMQ_HOST)%:%env(RABBITMQ_PORT)%/%2f/steamAuth?auto_setup=true'
+                options:
+                    queues:
+                        steamAuth:
+                            arguments:
+                                x-message-ttl: 30000
+            sync: 'sync://'
 
         routing:
             # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            'App\Message\SteamAuthorizeCommand': steamAuth
 
 # when@test:
 #    framework:

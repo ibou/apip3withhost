@@ -20,5 +20,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    authorize.dataStorage.predis:
+        class: Predis\Client
+        arguments:
+            $parameters: '%env(AUTH_REDIS_DSN)%'
+
+    App\Message\SteamAuthorizeCommand\DataStorage:
+        $client: '@authorize.dataStorage.predis'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -32,34 +32,34 @@
     .td-300 {
         transition: all 300ms ease-out;
     }
-    #desktop-menu ul li > a {
+    #desktopMenu ul li > a {
         @apply flex items-center gap-4 hover:bg-primary/20 px-3 py-4 2xl:py-5 rounded-xl
     }
     #serverActions > button:not(.bg-primary) {
         @apply btn btn-main border border-dark flex-c gap-2
     }
-    #table-container thead > tr > th {
+    #serviceDetails thead > tr > th {
         @apply px-6 py-3
     }
-    #table-container thead > tr > th:not(:first-child) {
+    #serviceDetails thead > tr > th:not(:first-child) {
         @apply font-normal
     }
-    #table-container tbody > tr > td {
+    #serviceDetails tbody > tr > td {
         @apply px-6 py-2 border-t border-b border-[#E9EFF4]
     }
-    #table-container tbody > tr > td:nth-child(2) {
+    #serviceDetails tbody > tr > td:nth-child(2) {
         @apply border-l
     }
-    #table-container tbody > tr > td:last-child {
+    #serviceDetails tbody > tr > td:last-child {
         @apply border-r
     }
-    #table-container tbody > tr:hover {
+    #serviceDetails tbody > tr:hover {
         @apply bg-slate-100
     }
-    #table-container tbody > tr:hover th {
+    #serviceDetails tbody > tr:hover th {
         @apply bg-white
     }
-    #table-container tbody > tr th {
+    #serviceDetails tbody > tr th {
         @apply py-4 pr-4 lg:px-4
     }
 }

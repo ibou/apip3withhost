@@ -1,11 +1,8 @@
 # Setup
 
-## Simple environment
+## Run Environment
 ```bash
-sudo apt install autoconf
-sudo apt install libsqlite3-dev
-
-phpbrew install 8.2.8 +default +openssl +mb +debug +phar +mcrypt +pdo +iconv +pgsql +sqlite +intl +opcache +iconv
+docker-compose -p csgo --env-file .env up -d
 ```
 
 ## Database

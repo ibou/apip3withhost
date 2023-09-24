@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use App\ApiResource\SteamAuthParameters;
 use App\Controller\SteamAuthController;
@@ -23,7 +24,7 @@ use Symfony\Component\Uid\Uuid;
         normalizationContext: ['user:read'],
         denormalizationContext: ['user:write'],
     ),
-    Get(
+    Post(
         uriTemplate: '/auth-via-steam',
         controller: SteamAuthController::class,
         openapi: new Operation(

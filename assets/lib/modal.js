@@ -1,30 +1,60 @@
-const modal1 = document.querySelector("#modal1");
-const modal_toggles1 = document.querySelectorAll(".modal1-toggle");
-const modal2 = document.querySelector("#modal2");
-const modal_toggles2 = document.querySelectorAll(".modal2-toggle");
-const modal3 = document.querySelector("#modal3");
-const modal_toggles3 = document.querySelectorAll(".modal3-toggle");
-modal_toggles1.forEach((item) => {
-  item.addEventListener("click", () => {
-    modal1.classList.toggle("hidden");
-  });
-});
-modal_toggles2.forEach((item) => {
-  item.addEventListener("click", () => {
-    modal2.classList.toggle("hidden");
-  });
-});
-modal_toggles3.forEach((item) => {
-  item.addEventListener("click", () => {
-    modal3.classList.toggle("hidden");
-  });
-});
+
+class ModalWindow
+{
+  /**
+   * @type {Element}
+   */
+  element;
+  closeButtonSelector = '.modal-close';
+  constructor(element) {
+    this.element = element;
+    this.closeButtons = element.querySelectorAll(this.closeButtonSelector);
+    this.closeButtons.forEach((button) => {
+      button.onclick = () => { this.toggleHideShow(); };
+    });
+  }
+  toggleHideShow() {
+    this.element.classList.toggle('hidden');
+  }
+}
+
+class ModalSelectors
+{
+  serverStartModalSelector    = '#serverStartModal';
+  pleaseWaitModalSelector     = '#pleaseWaitModal';
+  serverRestartModalSelector  = '#serverRestartModal';
+  serverStopModalSelector     = '#serverStopModal';
+}
 
 export default class ModalController
 {
-  constructor() {
-  }
-  init() {
+  selectors = new ModalSelectors();
+  bind() {
+    this.serverStartModal   = new ModalWindow(document.querySelector(this.selectors.serverStartModalSelector));
+    this.pleaseWaitModal    = new ModalWindow(document.querySelector(this.selectors.pleaseWaitModalSelector));
+    this.serverRestartModal = new ModalWindow(document.querySelector(this.selectors.serverRestartModalSelector));
+    this.serverStopModal    = new ModalWindow(document.querySelector(this.selectors.serverStopModalSelector));
 
+    /**
+     * @type {NodeListOf<Element>[]}
+     */
+    const tempTriggers = [
+      document.querySelector("#serverActions > button.modal1-toggle"),
+      document.querySelector("#serverActions > button.modal2-toggle"),
+      document.querySelector("#serverActions > button.modal3-toggle"),
+      document.querySelector("#serverActions > button.modal4-toggle")
+    ];
+    const tempTargets = [
+      this.serverStartModal,
+      this.pleaseWaitModal,
+      this.serverRestartModal,
+      this.serverStopModal
+    ];
+
+    tempTriggers.forEach((elements, index) => {
+      tempTriggers[index].onclick = () => {
+        tempTargets[index].toggleHideShow();
+      }
+    });
   }
 }

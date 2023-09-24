@@ -1,33 +1,62 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
+  postgres:
     image: postgres:${DATABASE_VERSION:-15}-alpine
     container_name: postgres
     environment:
       POSTGRES_DB: ${DATABASE_DB:-app}
-      # You should definitely change the password in production
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-!ChangeMe!}
       POSTGRES_USER: ${DATABASE_USER:-app}
+    ports:
+      - 5432:5432
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
     networks:
       default:
-        ipv4_address: 172.19.0.3
-###< doctrine/doctrine-bundle ###
+        ipv4_address: 172.20.0.3
+
+  php-fpm:
+    image: tarach/php:8.2.8-fpm-alpine3.18
+    container_name: php-fpm
+    build:
+      dockerfile: ./docker/php-fpm/Dockerfile
+      context: .
+    #command: sh -c "while true; do sleep 10; echo 'loop'; done"
+    command: php-fpm
+    volumes:
+      - ./:/app
+    networks:
+      default:
+        ipv4_address: 172.20.0.2
+
+  nginx:
+    image: tarach/nginx:1.25.2-alpine3.18-slim
+    container_name: nginx
+    build:
+      dockerfile: ./docker/nginx/Dockerfile
+      context: .
+    #command: sh -c "while true; do sleep 10; echo 'loop'; done"
+    command: nginx
+    restart: always
+    ports:
+      - 3000:80
+    volumes:
+      - ./:/app
+
   rabbitmq:
     image: rabbitmq:3.12.4-management-alpine
     container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
     ports:
       - "15672:15672"
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     networks:
       default:
-        ipv4_address: 172.19.0.4
+        ipv4_address: 172.20.0.4
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -37,9 +66,11 @@ services:
   redis:
     image: redis:7.2.1-alpine
     container_name: redis
+    ports:
+      - "6379:6379"
     networks:
       default:
-        ipv4_address: 172.19.0.5
+        ipv4_address: 172.20.0.5
 
 networks:
   default:
@@ -47,7 +78,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet:  172.19.0.1/16
+        - subnet: 172.20.0.1/16
 
 volumes:
 ###> doctrine/doctrine-bundle ###

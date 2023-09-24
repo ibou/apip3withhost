@@ -20,6 +20,9 @@
                   crossorigin="anonymous" referrerpolicy="no-referrer">
         {% endblock %}
 
+        <script>
+            window.paths = JSON.parse('{{ frontRoutes|json_encode(constant('JSON_HEX_TAG'))|raw }}');
+        </script>
         {% block javascripts %}
             {{ importmap() }}
         {% endblock %}
@@ -28,15 +31,13 @@
     <main class="flex">
         <!-- mobile -->
         <nav class="absolute top-0 w-full left-0 bg-dark lg:hidden z-50">
-            <div
-                    class="py-4 flex items-center justify-between relative z-50 max-screen">
+            <div class="py-4 flex items-center justify-between relative z-50 max-screen">
                 <a href="/index.html" class="flex items-center gap-2">
                     <image src="{{ asset("/image/logo.png") }}" alt="logo" />
                 </a>
 
                 <div class="flex items-center gap-4">
-                    <button
-                            id="mobile-btn"
+                    <button id="mobileToggleButton"
                             class="lg:hidden text-white text-4xl hover:text-secondary">
                         <i class="bi bi-list"></i>
                     </button>
@@ -45,7 +46,7 @@
         </nav>
 
         <aside
-                id="mobile-menu"
+                id="mobileMenu"
                 class="fixed w-full h-[100dvh] top-0 left-0 bg-dark z-40 menu-animation border-t border-white -translate-y-full lg:hidden">
             <div class="flex flex-col justify-between px-6 h-full">
                 <div class="flex flex-col gap-12 mt-12 w-full pt-12">
@@ -95,10 +96,9 @@
         </aside>
 
         <!-- desktop -->
-        <aside id="desktop-menu"
+        <aside id="desktopMenu"
                class="bg-dark fixed flex flex-col justify-between top-0 h-screen w-[300px] px-4 transition-all duration-300 max-lg:hidden">
-            <div
-                    class="flex justify-center items-center h-[75px] 2xl:h-[100px] border-b border-[#5D696F]">
+            <div class="flex justify-center items-center h-[75px] 2xl:h-[100px] border-b border-[#5D696F]">
                 <a href="/index.html"><img src="{{ asset("/image/logo.png") }}" alt="" /></a>
             </div>
             <div class="flex-1 py-4">
@@ -137,29 +137,21 @@
                     </li>
                 </ul>
             </div>
-            <div
-                    class="flex items-center h-[75px] 2xl:h-[100px] border-t border-[#5D696F]">
-                <button
-                        class="text-white flex items-center gap-4 px-3 py-4 2xl:py-5 rounded-xl w-full">
+            <div class="flex items-center h-[75px] 2xl:h-[100px] border-t border-[#5D696F]">
+                <button class="text-white flex items-center gap-4 px-3 py-4 2xl:py-5 rounded-xl w-full">
                     <img src="{{ asset("/image/Login.svg") }}" alt="" /> Login
                 </button>
             </div>
-            <button
-                    id="toggle-aside"
-                    class="absolute -right-4 -translate-y-1/2 top-[75px] 2xl:top-[100px] h-9 aspect-square bg-primary rounded-full">
+            <button id="toggleMenuButton" class="absolute -right-4 -translate-y-1/2 top-[75px] 2xl:top-[100px] h-9 aspect-square bg-primary rounded-full">
                 <i class="bi bi-chevron-left" style="color: white"></i>
             </button>
         </aside>
 
-        <section
-                class="max-lg:pt-24 w-full min-h-screen lg:ml-[300px] p-4 lg:p-8 text-dark"
-                id="main">
-            <div
-                    class="max-w-screen-2xl mx-auto flex flex-col justify-between w-full gap-6 h-full">
+        <section id="main" class="max-lg:pt-24 w-full min-h-screen lg:ml-[300px] p-4 lg:p-8 text-dark">
+            <div class="max-w-screen-2xl mx-auto flex flex-col justify-between w-full gap-6 h-full">
                 <div class="flex flex-col gap-4">
                     <!-- 1 -->
-                    <div
-                            class="flex justify-between flex-wrap gap-4 bg-white p-4 rounded-2xl">
+                    <div class="flex justify-between flex-wrap gap-4 bg-white p-4 rounded-2xl">
                         <div class="flex flex-col">
                             <ul class="flex items-center gap-2 text-gray-2">
                                 <li>
@@ -255,7 +247,7 @@
                         <button class="modal2-toggle">
                             <img src="{{ asset("/image/Refresh.svg") }}" alt="" /> Restart
                         </button>
-                        <button>
+                        <button class="modal4-toggle">
                             <img src="{{ asset("/image/Console.svg") }}" alt="" /> Console
                         </button>
                         <button>
@@ -267,7 +259,7 @@
                     </div>
                 </div>
 
-                <div id="table-container" class="flex justify-between bg-white p-4 rounded-2xl flex-1 lg:max-w-[calc(100vw-385px)]">
+                <div id="serviceDetails" class="flex justify-between bg-white p-4 rounded-2xl flex-1 lg:max-w-[calc(100vw-385px)]">
                     <div class="relative overflow-x-auto overflow-y-auto max-h-[500px] w-full custom-scrollbar">
                         <table class="w-full text-sm text-left overflow-x-auto border-separate border-spacing-y-0">
                             <thead class="text-xs text-gray-2 font-normal">
@@ -608,12 +600,10 @@
                     </div>
                 </footer>
             </div>
-            <!-- modal 1 server start -->
-            <div
-                    id="modal1"
-                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 hidden modal-animation">
-                <div
-                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+
+            <!-- Modal Windows -->
+            <div id="serverStartModal" class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 hidden modal-animation">
+                <div class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
                     <img src="{{ asset("/image/running.svg") }}" alt="running" class="w-[40%]" />
                     <div>
                         <h3 class="text-2xl 2xl:text-3xl font-semibold">
@@ -624,17 +614,27 @@
                         </p>
                     </div>
                     <div class="w-full">
-                        <button class="btn btn-main w-full modal1-toggle">OK</button>
+                        <button class="btn btn-main w-full modal-close">OK</button>
                     </div>
                 </div>
             </div>
 
-            <!-- modal 2 server restart -->
-            <div
-                    id="modal2"
-                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal-animation hidden">
-                <div
-                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+            <div id="pleaseWaitModal" class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal-animation hidden">
+                <div class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-16">
+                    <img src="{{ asset("/image/refreshing.svg") }}" alt="running" class="w-[40%] animate-[reverse_spin_3s_linear_infinite]" />
+                    <div>
+                        <h3 class="text-2xl 2xl:text-3xl font-semibold">
+                            Authenticating
+                        </h3>
+                        <p class="text-sm 2xl:text-base font-medium">
+                            Please wait
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="serverRestartModal" class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal-animation hidden">
+                <div class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
                     <img src="{{ asset("/image/refreshing.svg") }}" alt="running" class="w-[40%]" />
                     <div>
                         <h3 class="text-2xl 2xl:text-3xl font-semibold">
@@ -645,17 +645,13 @@
                         </p>
                     </div>
                     <div class="w-full">
-                        <button class="btn btn-main w-full modal2-toggle">OK</button>
+                        <button class="btn btn-main w-full modal-close">OK</button>
                     </div>
                 </div>
             </div>
 
-            <!-- modal 3 server stop -->
-            <div
-                    id="modal3"
-                    class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 modal-animation hidden">
-                <div
-                        class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
+            <div id="serverStopModal" class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal_toggles1 modal-animation hidden">
+                <div class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-8">
                     <img src="{{ asset("/image/stopping.svg") }}" alt="running" class="w-[40%]" />
                     <div>
                         <h3 class="text-2xl 2xl:text-3xl font-semibold">Stop Server</h3>
@@ -664,19 +660,13 @@
                         </p>
                     </div>
                     <div class="w-full flex flex-col gap-4">
-                        <button class="btn btn-main w-full modal3-toggle">OK</button>
-                        <button class="w-full modal2-toggle modal3-toggle">No</button>
+                        <button class="btn btn-main w-full modal-close modal-yes">OK</button>
+                        <button class="w-full modal2-toggle modal-close modal-no">No</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-{#        <div class="flex items-center justify-center h-screen bg-slate-900 text-white">#}
-{#            <a href="#" id="login" class="bg-steam-lightGray text-xl px-5 py-3 rounded-md font-bold flex items-center space-x-4 hover:bg-gray-600 transition duration-75">#}
-{#                <i class="fa-brands fa-steam text-2xl"></i>#}
-{#                <span>Login with Steam</span>#}
-{#            </a>#}
-{#        </div>#}
         {% block body %}{% endblock %}
     </body>
 </html>

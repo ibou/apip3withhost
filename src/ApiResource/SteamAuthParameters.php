@@ -57,6 +57,13 @@ class SteamAuthParameters
             "type" => "string",
         ],
         [
+            "name" => "openid.assoc_handle",
+            "in" => "query",
+            "description" => "",
+            "required" => "true",
+            "type" => "string",
+        ],
+        [
             "name" => "openid.signed",
             "in" => "query",
             "description" => "",
