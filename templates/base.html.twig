@@ -621,8 +621,10 @@
 
             <div id="pleaseWaitModal" class="fixed inset-0 h-full w-full bg-dark/50 flex-c modal-animation hidden">
                 <div class="w-[max(30vw,100%)] max-w-[400px] 3xl:max-w-[500px] aspect-square bg-white rounded-xl 2xl:rounded-3xl flex flex-col items-center justify-between p-16">
-                    <img src="{{ asset("/image/refreshing.svg") }}" alt="running" class="w-[40%] animate-[reverse_spin_3s_linear_infinite]" />
-                    <div>
+                    <img src="{{ asset("/image/refreshing.svg") }}" alt="running" class="refreshing w-[40%] animate-[reverse_spin_3s_linear_infinite]" />
+                    <img src="{{ asset("/image/checkmark.svg") }}" alt="running" class="success hidden w-[40%]" />
+                    <img src="{{ asset("/image/stopping.svg") }}" alt="running" class="failure hidden w-[40%]" />
+                    <div class="text">
                         <h3 class="text-2xl 2xl:text-3xl font-semibold">
                             Authenticating
                         </h3>

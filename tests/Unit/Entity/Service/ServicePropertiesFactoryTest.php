@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Entity\Service;
 
-use App\Entity\Service\CSGOServiceProperties;
+use App\Entity\Service\CS2ServiceProperties;
 use App\Entity\Service\ServicePropertiesFactory;
 use App\Entity\Service\ServiceTypeEnum;
 use PHPUnit\Framework\TestCase;
@@ -27,6 +27,6 @@ class ServicePropertiesFactoryTest extends TestCase
             ],
         );
 
-        $this->assertInstanceOf(CSGOServiceProperties::class, $properties);
+        $this->assertInstanceOf(CS2ServiceProperties::class, $properties);
     }
 }

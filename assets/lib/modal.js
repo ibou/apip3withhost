@@ -16,6 +16,51 @@ class ModalWindow
   toggleHideShow() {
     this.element.classList.toggle('hidden');
   }
+  hideAfterDelay(delay)
+  {
+    if (typeof delay === 'undefined') {
+      delay = 2000;
+    }
+    setTimeout(() => {
+      this.toggleHideShow();
+    }, delay);
+  }
+}
+
+class PleaseWaitModal extends ModalWindow
+{
+  successElement;
+  refreshingElement;
+  failureElement;
+  textElement;
+
+  constructor(element) {
+    super(element);
+    this.successElement = element.querySelector('.success');
+    this.refreshingElement = element.querySelector('.refreshing');
+    this.failureElement = element.querySelector('.failure');
+    this.textElement = element.querySelector('.text');
+  }
+
+  hideAllElements()
+  {
+    this.textElement.classList.add('hidden');
+    this.refreshingElement.classList.add('hidden');
+    this.failureElement.classList.add('hidden');
+    this.successElement.classList.add('hidden');
+  }
+
+  toSuccess()
+  {
+    this.hideAllElements();
+    this.successElement.classList.remove('hidden');
+  }
+
+  toFailure()
+  {
+    this.hideAllElements();
+    this.failureElement.classList.remove('hidden');
+  }
 }
 
 class ModalSelectors
@@ -31,7 +76,7 @@ export default class ModalController
   selectors = new ModalSelectors();
   bind() {
     this.serverStartModal   = new ModalWindow(document.querySelector(this.selectors.serverStartModalSelector));
-    this.pleaseWaitModal    = new ModalWindow(document.querySelector(this.selectors.pleaseWaitModalSelector));
+    this.pleaseWaitModal    = new PleaseWaitModal(document.querySelector(this.selectors.pleaseWaitModalSelector));
     this.serverRestartModal = new ModalWindow(document.querySelector(this.selectors.serverRestartModalSelector));
     this.serverStopModal    = new ModalWindow(document.querySelector(this.selectors.serverStopModalSelector));
 

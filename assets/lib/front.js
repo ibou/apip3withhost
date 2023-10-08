@@ -16,7 +16,7 @@ export default class FrontController
         const modalController = new ModalController();
         this.controllers = {
             modalController: modalController,
-            loginController: new LoginController(this.router, modalController),
+            loginController: new LoginController(this.router, modalController, this.debug),
             navController: new NavController(),
         };
     }

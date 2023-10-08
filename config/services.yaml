@@ -25,7 +25,7 @@ services:
         arguments:
             $parameters: '%env(AUTH_REDIS_DSN)%'
 
-    App\Message\SteamAuthorizeCommand\DataStorage:
+    App\Message\SteamAuthorizeCommand\AuthDataRepository:
         $client: '@authorize.dataStorage.predis'
 
     # add more service definitions when explicit configuration is needed

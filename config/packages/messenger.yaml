@@ -17,7 +17,7 @@ framework:
 
         routing:
             # Route your messages to the transports
-            'App\Message\SteamAuthorizeCommand': steamAuth
+            App\Message\SteamAuthorizeCommand: steamAuth
 
 # when@test:
 #    framework:

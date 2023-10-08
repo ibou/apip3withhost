@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Message\SteamAuthorizeCommand;
 
-readonly class Data
+use Symfony\Component\Uid\Uuid;
+
+readonly class AuthData
 {
     public function __construct(
+        public Uuid $uuid,
         public string $ns,
         public string $mode,
         public string $op_endpoint,
@@ -17,7 +20,8 @@ readonly class Data
         public string $assoc_handle,
         public string $signed,
         public string $sig,
-        public bool $isAuthenticated = false
+        public bool $isAuthenticated = false,
+        public bool $isProcessing = true,
     ) {
     }
 

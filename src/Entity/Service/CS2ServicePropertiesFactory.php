@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity\Service;
 
-class CSGOServicePropertiesFactory implements ServicePropertiesFactoryInterface
+class CS2ServicePropertiesFactory implements ServicePropertiesFactoryInterface
 {
-    public function createFromArray(array $properties): CSGOServiceProperties
+    public function createFromArray(array $properties): CS2ServiceProperties
     {
-        return new CSGOServiceProperties(
+        return new CS2ServiceProperties(
             $properties['slots'],
             $properties['rconPassword'] ?? null,
             $properties['joinPassword'] ?? null,

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Message;
 
-use App\Message\SteamAuthorizeCommand\Data;
+use App\Message\SteamAuthorizeCommand\AuthData;
 use PHPUnit\Framework\TestCase;
 
 class SteamAuthorizeCommandDataTest extends TestCase
 {
     public function testSerialize(): void
     {
-        $data = new Data(
+        $data = new AuthData(
             'http://specs.openid.net/auth/2.0',
             'id_res',
             'https://steamcommunity.com/openid/login',
@@ -26,7 +26,7 @@ class SteamAuthorizeCommandDataTest extends TestCase
 
         $unserialized = unserialize(serialize($data));
 
-        $this->assertInstanceOf(Data::class, $unserialized);
+        $this->assertInstanceOf(AuthData::class, $unserialized);
         $this->assertNotSame($data, $unserialized);
         $this->assertTrue($data == $unserialized);
     }

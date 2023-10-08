@@ -97,7 +97,7 @@ class Service
         $this->port = $port;
     }
 
-    #[ORM\PrePersist] 
+    #[ORM\PrePersist]
     public function prePersist(): void 
     { 
         $this->createdAt = $this->createdAt ?? new DateTimeImmutable();
@@ -110,7 +110,7 @@ class Service
         $this->serviceProperties = (new ServicePropertiesFactory)->createFromArray($this->type, $this->properties);
     }
 
-    #[ORM\PreUpdate] 
+    #[ORM\PreUpdate]
     public function preUpdate(): void 
     { 
         $this->updatedAt = new DateTimeImmutable(); 

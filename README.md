@@ -2,7 +2,7 @@
 
 ## Run Environment
 ```bash
-docker-compose -p csgo --env-file .env up -d
+docker-compose -p cs2 --env-file .env up -d
 ```
 
 ## Database

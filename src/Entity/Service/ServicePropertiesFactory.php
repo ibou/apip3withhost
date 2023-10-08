@@ -7,7 +7,7 @@ namespace App\Entity\Service;
 class ServicePropertiesFactory
 {
     private array $map = [
-        ServiceTypeEnum::TYPE_CSGO->value => CSGOServicePropertiesFactory::class,
+        ServiceTypeEnum::TYPE_CSGO->value => CS2ServicePropertiesFactory::class,
     ];
 
     public function createFromArray(ServiceTypeEnum $type, array $properties): ServicePropertiesInterface

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         operations: [],
     )
 ]
-class CSGOServiceProperties implements ServicePropertiesInterface
+class CS2ServiceProperties implements ServicePropertiesInterface
 {
     #[Groups(['service:read'])]
     private int $slots;
