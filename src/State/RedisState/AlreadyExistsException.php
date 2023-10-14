@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\State;
+namespace App\State\RedisState;
 
 class AlreadyExistsException extends \Exception
 {

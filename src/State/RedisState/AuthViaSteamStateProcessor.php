@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\State;
+namespace App\State\RedisState;
 
 use ApiPlatform\Metadata\Operation;
 use App\ApiResource\PostAuthViaSteamResource;

@@ -13,7 +13,7 @@ use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Response;
 use App\Message\SteamAuthorizeCommand\AuthData;
 use App\Message\SteamAuthorizeCommand\ClientChecksum;
-use App\State\AuthViaSteamStateProvider;
+use App\State\RedisState\AuthViaSteamStateProvider;
 use Symfony\Component\Uid\Uuid;
 
 #[

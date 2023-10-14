@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\State;
+namespace App\State\RedisState;
 
 use App\Message\SteamAuthorizeCommand\AuthData;
 use Symfony\Component\Uid\Uuid;

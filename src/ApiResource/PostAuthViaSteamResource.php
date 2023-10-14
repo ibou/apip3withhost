@@ -11,7 +11,7 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Response;
 use App\Message\SteamAuthorizeCommand\AuthData;
-use App\State\AuthViaSteamStateProcessor;
+use App\State\RedisState\AuthViaSteamStateProcessor;
 use Symfony\Component\Uid\Uuid;
 
 #[

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Message\SteamAuthorizeCommand;
 
-use App\State\RepositoryInterface;
+use App\State\RedisState\RepositoryInterface;
 use Predis\Client as RedisClient;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Uid\Uuid;
