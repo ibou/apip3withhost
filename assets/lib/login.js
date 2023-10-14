@@ -105,7 +105,7 @@ export default class LoginController
      */
     loginButtonElement = null;
     /**
-     * @type {GetAuthViaSteamRequest}
+     * @type {GetAuthViaSteamRequest|null}
      */
     getAuthRequest= null;
     /**
@@ -117,6 +117,12 @@ export default class LoginController
     doHandle = false;
     processedPostBind = false;
     authCheckingDelay = 400;
+
+    /**
+     * JWT Token used to make requests
+     * @type {String|null}
+     */
+    token = null;
 
     constructor(router, modals, debug) {
         this.router = router;
@@ -164,9 +170,11 @@ export default class LoginController
         this.startCheckingAuth(this.postAuthRequest.getUuid())
             .then(
                 (result) => {
-                   if (result.isAuthenticated) {
-                       this.setAuthSuccessState();
-                   }
+                    result.isAuthenticated
+                        ? this.setAuthSuccessState()
+                        : this.setAuthFailedState()
+                    ;
+                    this.token = result.token;
                 },
                 () => {
                     this.setAuthFailedState();
@@ -186,10 +194,7 @@ export default class LoginController
                 const response = await this.getAuthRequest.request();
                 this.debug({ GetAuthViaSteamResponse: response, GetAuthViaSteamRequest: this.getAuthRequest });
 
-                if (200 !== response.status
-                    || 404 === response.status
-                    || this.timer.hasFinished()
-                ) {
+                if (200 !== response.status || this.timer.hasFinished()) {
                     reject();
                     return false;
                 }
@@ -203,12 +208,12 @@ export default class LoginController
                 }
 
                 if (body.isAuthenticated) {
-                    resolve({ isAuthenticated: true});
+                    resolve({ isAuthenticated: true, token: body.token});
                     return true;
                 }
 
                 if (!body.isProcessing) {
-                    resolve({ isAuthenticated: false })
+                    resolve({ isAuthenticated: false, token: null })
                     return false;
                 }
                 setTimeout(func, this.authCheckingDelay)

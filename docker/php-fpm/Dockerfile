@@ -1,14 +1,21 @@
 FROM php:8.2.8-fpm-alpine3.18
 
-RUN apk add --no-cache --virtual .build-deps autoconf build-base libpq-dev oniguruma-dev linux-headers rabbitmq-c-dev sqlite-dev
+RUN apk add --no-cache --virtual .build-deps autoconf build-base libpq-dev oniguruma-dev linux-headers rabbitmq-c-dev sqlite-dev icu-dev
 
 RUN printf "\n" | pecl install amqp \
-    && pecl install redis xdebug \
-    && docker-php-ext-enable amqp redis xdebug \
+    && pecl install redis \
+    && docker-php-ext-enable amqp redis \
     && docker-php-ext-install opcache \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-install pdo_sqlite \
-    && docker-php-ext-install mbstring
+    && docker-php-ext-install mbstring \
+    && docker-php-ext-install intl
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey = PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 ENV COMPOSER_HOME /composer
 ENV PATH ./vendor/bin:/composer/vendor/bin:$PATH

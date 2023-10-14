@@ -51,18 +51,18 @@ class Service
     #[ORM\Column]
     #[Groups(['service:write'])]
     #[ApiProperty(readable: false)]
-    private array $properties = [];
+    private array $properties;
 
     #[ORM\Column(length: 15, nullable: true)]
     #[Assert\Ip(version: '4')]
     #[Groups(['service:read'])]
-    private ?string $ip = null;
+    private ?string $ip;
 
     #[ORM\Column(nullable: true)]
     #[Assert\GreaterThan(1023)]
     #[Assert\LessThan(65535)]
     #[Groups(['service:read'])]
-    private ?int $port = null;
+    private ?int $port;
 
     #[Assert\Valid]
     #[ApiProperty(readable: true, writable: false)]

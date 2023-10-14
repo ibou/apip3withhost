@@ -21,6 +21,16 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findOneBySteamId(string $steamId): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.steamId = :steamId')
+            ->setParameter('steamId', $steamId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

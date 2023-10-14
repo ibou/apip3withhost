@@ -11,3 +11,6 @@ api_platform:
         html:
             mime_types:
                 - text/html
+    defaults:
+        normalization_context:
+            skip_null_values: false

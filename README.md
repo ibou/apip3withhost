@@ -5,6 +5,11 @@
 docker-compose -p cs2 --env-file .env up -d
 ```
 
+## Generate key-pair
+```bash
+bin/console lexik:jwt:generate-keypair --skip-if-exists
+```
+
 ## Database
 ```bash
 bin/console doctrine:database:drop --force
@@ -20,11 +25,10 @@ yarn run dev
 bin/console asset-map:compile --clean
 ```
 
-# Run
+# Run Auth Worker
 ```bash
-php -t ./public -S 127.0.0.1:3000
+docker exec -it php-fpm sh -c 'bin/console messenger:consume steamAuth -vv'
 ```
-Note: ```symfony``` cli tool has issues recognizing DATABASE_DRIVER environment variable correctly ( it relies on schema )
 
 # Test
 ```bash

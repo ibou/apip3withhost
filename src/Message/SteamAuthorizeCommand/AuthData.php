@@ -20,9 +20,29 @@ readonly class AuthData
         public string $assoc_handle,
         public string $signed,
         public string $sig,
+        public ClientChecksum $checksum,
         public bool $isAuthenticated = false,
         public bool $isProcessing = true,
+        public ?string $token = null,
     ) {
+    }
+
+    public function parseSteamId(): string
+    {
+        preg_match('#^https://steamcommunity.com/openid/id/(\d+)#', $this->claimed_id, $matches);
+        return $matches[1];
+    }
+
+    public function makeFinishedProcessing(?string $token = null): self
+    {
+        $properties = get_object_vars($this);
+        $properties['isProcessing'] = false;
+        if ($token) {
+            $properties['isAuthenticated'] = true;
+            $properties['token'] = $token;
+        }
+
+        return new self(...$properties);
     }
 
     public function __serialize(): array

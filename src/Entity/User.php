@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
@@ -20,22 +21,55 @@ use Symfony\Component\Uid\Uuid;
         denormalizationContext: ['user:write'],
     ),
 ]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Groups(['user:read'])]
-    private ?Uuid $id;
+    private Uuid $uuid;
 
-    public function __construct(?Uuid $id = null)
-    {
-        $this->id = $id ?? Uuid::v7();
+    #[ORM\Column(type: 'uuid')]
+    private Uuid $authUuid;
+
+    #[ORM\Column(length: 255, unique: true)]
+    private string $steamId;
+
+    #[ORM\Column]
+    private array $privileges;
+
+    public function __construct(
+        Uuid  $uuid,
+        Uuid  $authUuid,
+        string $steamId,
+        array $privileges,
+    ) {
+        $this->uuid = $uuid;
+        $this->authUuid = $authUuid;
+        $this->steamId = $steamId;
+        $this->privileges = $privileges;
     }
 
-    public function getId(): ?Uuid
+    public function getUuid(): Uuid
     {
-        return $this->id;
+        return $this->uuid;
+    }
+
+    public function getSteamId(): string
+    {
+        return $this->steamId;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->privileges;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string)$this->authUuid;
     }
 }

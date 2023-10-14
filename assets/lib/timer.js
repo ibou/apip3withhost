@@ -18,7 +18,7 @@ export default class Timer
         if (typeof counter === 'undefined') {
             counter = 0;
         }
-        if (typeof counter === 'undefined') {
+        if (typeof step === 'undefined') {
             step = 1000;
         }
 

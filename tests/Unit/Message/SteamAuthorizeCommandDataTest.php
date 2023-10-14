@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Message;
 
 use App\Message\SteamAuthorizeCommand\AuthData;
+use App\Message\SteamAuthorizeCommand\ClientChecksum;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Uid\Uuid;
 
 class SteamAuthorizeCommandDataTest extends TestCase
 {
     public function testSerialize(): void
     {
         $data = new AuthData(
+            Uuid::v7(),
             'http://specs.openid.net/auth/2.0',
             'id_res',
             'https://steamcommunity.com/openid/login',
@@ -22,6 +25,7 @@ class SteamAuthorizeCommandDataTest extends TestCase
             '1234567890',
             'signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle',
             'wUFN9WtJF65ubhIh2Nl7Wezl2CE%3D',
+            new ClientChecksum(),
         );
 
         $unserialized = unserialize(serialize($data));

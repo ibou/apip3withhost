@@ -24,6 +24,8 @@ services:
       context: .
     #command: sh -c "while true; do sleep 10; echo 'loop'; done"
     command: php-fpm
+    environment:
+      - VAR_DUMPER_SERVER=host.docker.internal:9912
     volumes:
       - ./:/app
     networks:
