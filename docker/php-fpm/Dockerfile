@@ -28,7 +28,7 @@ RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm composer-setup.php installer.sig
 
-RUN addgroup -g 1000 php-user \
+RUN addgroup -g 1001 php-user \
     && adduser -u 1000 -S php-user -G php-user \
     && mkdir /app \
     && chown -R php-user:php-user /app

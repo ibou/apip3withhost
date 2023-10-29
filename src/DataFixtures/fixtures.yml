@@ -24,14 +24,44 @@ App\Entity\Service\ServiceStatusEnum:
   status5:
     __factory: { STOPPED: [] }
 
+App\Entity\User:
+  user1:
+    __construct:
+      steamId: '123456789'
+      privileges:
+        - EDIT_ALL_SERVICES
+        - SHOW_ALL_SERVICES
+
+App\Entity\Location\LocationCountryEnum:
+  locationCountryPL:
+    __factory: { POLAND: [] }
+  locationCountryDE:
+    __factory: { GERMANY: [] }
+
+App\Entity\Location\LocationTypeEnum:
+  locationTypeDocker:
+    __factory: { DOCKER: [] }
+
+App\Entity\Location:
+  location1:
+    __construct:
+      country: '@locationCountryPL'
+      type: '@locationTypeDocker'
+  location2:
+    __construct:
+      country: '@locationCountryDE'
+      type: '@locationTypeDocker'
+
 App\Entity\Service:
-  service{1..50}:
+  service{1..2}:
     __construct:
       hostName: '<name()> <current()>'
       type: '@typeCSGO'
       status: '@status*'
       ip: null
       port: null
+      owner: '@user*'
+      location: <randomValue(@location{1..2})>
       properties:
         slots: 12
         rconPassword: '123456'

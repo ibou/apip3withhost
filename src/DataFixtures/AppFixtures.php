@@ -21,6 +21,7 @@ class AppFixtures extends Fixture
 
         $faker->addProvider(new AliceProvider());
         $faker->addProvider(new Commerce($faker));
+        $faker->addProvider(new AliceHelper());
 
         return $faker;
     }

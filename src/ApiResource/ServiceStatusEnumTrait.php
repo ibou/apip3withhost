@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\ApiResource;
 
-use App\Entity\Service\ServiceStatusEnum;
-
 trait ServiceStatusEnumTrait
 {
     public function getId(): string
@@ -25,6 +23,6 @@ trait ServiceStatusEnumTrait
 
     public static function __callStatic($name, $arguments): self
     {
-        return ServiceStatusEnum::from(strtolower($name));
+        return self::from(strtolower($name));
     }
 }

@@ -12,6 +12,15 @@ use LogicException;
 
 class EntityClassDtoStateProcessor extends AbstractStateOperation implements ProcessorInterface
 {
+    /**
+     * Processes the state.
+     *
+     * @param array<string, mixed> $uriVariables
+     * @param array<string, mixed> $context
+     *
+     * @return T
+     * @throws AlreadyExistsException
+     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         if ($operation instanceof DeleteOperationInterface) {

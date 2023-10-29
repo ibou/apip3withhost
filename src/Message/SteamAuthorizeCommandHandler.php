@@ -40,10 +40,10 @@ readonly class SteamAuthorizeCommandHandler
     private function createNewUser(string $steamId): User
     {
         $user = new User(
-            Uuid::v7(),
-            Uuid::v7(),
             $steamId,
             [],
+            Uuid::v7(),
+            Uuid::v7(),
         );
         $this->entityManager->persist($user);
         $this->entityManager->flush();

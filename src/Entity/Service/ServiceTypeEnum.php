@@ -13,10 +13,6 @@ enum ServiceTypeEnum: string
 
     public static function __callStatic($name, $arguments): self
     {
-        /**
-         * @todo When adding more types, create logic responsible for creating them
-         */
-        assert($name === 'CSGO');
-        return ServiceTypeEnum::TYPE_CSGO;
+        return self::from(strtolower($name));
     }
 }

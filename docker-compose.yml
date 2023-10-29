@@ -28,6 +28,7 @@ services:
       - VAR_DUMPER_SERVER=host.docker.internal:9912
     volumes:
       - ./:/app
+      - /var/run/docker.sock:/var/run/docker.sock:rw
     networks:
       default:
         ipv4_address: 172.20.0.2

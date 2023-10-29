@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'openapi-file' => __DIR__ . '/docker-api.yaml',
+    'namespace' => 'App\Service\Docker',
+    'directory' => __DIR__ . '/src/Service/Docker',
+];
