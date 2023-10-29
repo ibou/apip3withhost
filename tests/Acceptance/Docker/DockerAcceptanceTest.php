@@ -13,8 +13,10 @@ class DockerAcceptanceTest extends WebTestCase
 
         $client = (new CurlHttpClient([
 //            'bindto' => '/var/run/docker.sock'
+            'cafile' => __DIR__ . '/../../../ssl-test/ca.pem',
             'local_cert' => __DIR__ . '/../../../ssl-test/client.pem',
             'local_pk' => __DIR__ . '/../../../ssl-test/client.key',
+            'verify_host' => false,
         ]));
         $response = $client->request(
             'GET',

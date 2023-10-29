@@ -63,15 +63,3 @@ Edit OpenRC service configuration for docker and add ```DOCKER_OPTS="--host 0.0.
 ```bash
 sudo nano /etc/conf.d/docker
 ```
-
-## Install CA Certificate
-```bash
-docker exec -u root -it php-fpm sh -c "cp ./ssl-test/ca.pem /usr/local/share/ca-certificates/generated-test-ca.crt"
-docker exec -u root -it php-fpm sh -c "update-ca-certificates"
-```
-
-### Check if ca cert was installed correctly
-Compare last entry entry with your ```ca.pem``` file
-```bash
-docker exec -u root -it php-fpm sh -c "tail /etc/ssl/certs/ca-certificates.crt"
-```

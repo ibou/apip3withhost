@@ -4,9 +4,9 @@ set -eo pipefail
 
 cd $(dirname $0)
 
-C=FR
-ST=Ile-de-France
-L=Paris
+C=PL
+ST=Mazovia
+L=Warsaw
 O="PHP-HTTP"
 CN="192.168.56.10"
 
