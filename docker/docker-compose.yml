@@ -11,7 +11,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - ./data/postgres:/var/lib/postgresql/data:rw
     networks:
       main:
         ipv4_address: 172.16.1.3
@@ -66,7 +66,7 @@ services:
     ports:
       - "15672:15672"
     volumes:
-      - ./data:/var/lib/rabbitmq
+      - ./data/rabbitmq:/var/lib/rabbitmq
     networks:
       main:
         ipv4_address: 172.16.1.4
@@ -93,7 +93,5 @@ networks:
       config:
         - subnet: 172.16.1.0/24
 
-volumes:
 ###> doctrine/doctrine-bundle ###
-  database_data:
 ###< doctrine/doctrine-bundle ###
