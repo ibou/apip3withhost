@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Location\Exception\AbstractLocationException;
+use App\Entity\Location\Exception\LocationPropertiesException;
 use App\Entity\Location\LocationCountryEnum;
 use App\Entity\Location\LocationPropertiesFactory;
 use App\Entity\Location\LocationPropertiesInterface;
@@ -27,6 +29,9 @@ class Location
     #[ORM\Column(type: 'uuid')]
     private Uuid $uuid;
 
+    #[ORM\Column(type: Types::STRING)]
+    private string $name;
+
     #[ORM\Column(type: Types::STRING, enumType: LocationCountryEnum::class)]
     private LocationCountryEnum $country;
 
@@ -34,7 +39,7 @@ class Location
     private LocationTypeEnum $type;
 
     #[ORM\Column]
-    private array $properties = [];
+    private array $properties;
 
     #[Assert\Valid]
     private LocationPropertiesInterface $locationProperties;
@@ -46,26 +51,47 @@ class Location
     private Collection $services;
 
     public function __construct(
+        string $name,
         LocationCountryEnum $country,
         LocationTypeEnum $type,
-        array $properties,
-        int $available,
+        iterable $properties = [],
+        int $available = 0,
         ?Uuid $uuid = null,
     ) {
         $this->uuid = $uuid ?? Uuid::v7();
 
+        if (is_object($properties) && method_exists($properties, 'getArrayCopy')) {
+            $properties = $properties->getArrayCopy();
+        }
         $this->properties = $properties;
-        $this->locationProperties = (new LocationPropertiesFactory())->createFromArray($type, $properties);
 
+        try {
+            $this->locationProperties = (new LocationPropertiesFactory())->createFromArray($type, $properties);
+        } catch (AbstractLocationException $exception) {
+            throw new LocationPropertiesException('Location properties are invalid.', 0, $exception);
+        }
+
+        $this->name = $name;
         $this->country = $country;
         $this->type = $type;
         $this->available = $available;
         $this->services = new ArrayCollection();
     }
 
+    #[ORM\PostLoad]
+    public function initLocationProperties(): void
+    {
+        $this->locationProperties = (new LocationPropertiesFactory())->createFromArray($this->type, $this->properties);
+    }
+
     public function getUuid(): Uuid
     {
         return $this->uuid;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function getCountry(): LocationCountryEnum

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Acceptance\Docker;
+namespace App\Tests\Integration\Docker;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpClient\CurlHttpClient;
@@ -16,11 +16,11 @@ class DockerAcceptanceTest extends WebTestCase
             'cafile' => __DIR__ . '/../../../ssl-test/ca.pem',
             'local_cert' => __DIR__ . '/../../../ssl-test/client.pem',
             'local_pk' => __DIR__ . '/../../../ssl-test/client.key',
-            'verify_host' => false,
+//            'verify_host' => false,
         ]));
         $response = $client->request(
             'GET',
-            'https://192.168.56.10:2375/version'
+            'https://192.168.56.10:2376/version'
         );
 
         dump(

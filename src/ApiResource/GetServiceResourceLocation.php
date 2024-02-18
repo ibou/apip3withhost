@@ -9,6 +9,8 @@ use App\Entity\Location\LocationTypeEnum;
 
 class GetServiceResourceLocation
 {
+    public string $name;
+
     public LocationCountryEnum $country;
 
     public LocationTypeEnum $type;

@@ -27,7 +27,7 @@ class Service
     private Uuid $uuid;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $hostName;
+    private string $name;
 
     #[ORM\Column(type: Types::STRING, enumType: ServiceTypeEnum::class)]
     private ServiceTypeEnum $type;
@@ -51,11 +51,11 @@ class Service
     #[Assert\Valid]
     private ServicePropertiesInterface $serviceProperties;
 
-    #[ORM\ManyToOne(inversedBy: 'services', fetch: 'EAGER')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'services')]
     #[ORM\JoinColumn(referencedColumnName: "uuid", nullable: false)]
     private Location $location;
 
-    #[ORM\ManyToOne(inversedBy: 'services', fetch: 'EAGER')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'services')]
     #[ORM\JoinColumn(referencedColumnName: "uuid", nullable: false)]
     private User $owner;
 
@@ -72,7 +72,7 @@ class Service
     ) {
         $this->uuid = $uuid ?? Uuid::v7();
 
-        $this->hostName = $hostName;
+        $this->name = $hostName;
         $this->type = $type;
 
         $this->properties = $properties;
@@ -96,9 +96,9 @@ class Service
         return $this->uuid;
     }
 
-    public function getHostName(): string
+    public function getName(): string
     {
-        return $this->hostName;
+        return $this->name;
     }
 
     public function getStatus(): ServiceStatusEnum
@@ -134,5 +134,11 @@ class Service
     public function getOwner(): User
     {
         return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+        return $this;
     }
 }

@@ -1,3 +1,3 @@
 FROM nginx:1.25.2-alpine3.18-slim
 
-COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf

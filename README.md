@@ -2,7 +2,7 @@
 
 ## Run Environment
 ```bash
-docker-compose -p cs2 --env-file .env up -d
+docker-compose --env-file /app/.env -f /app/docker/docker-compose.yml -p cs2 up -d
 ```
 
 ## Generate key-pair
@@ -12,10 +12,10 @@ bin/console lexik:jwt:generate-keypair --skip-if-exists
 
 ## Database
 ```bash
-bin/console doctrine:database:drop --force
-bin/console doctrine:database:create
-bin/console doctrine:schema:create
-bin/console doctrine:fixtures:load --no-interaction 
+docker exec -it php-fpm sh -c 'bin/console doctrine:database:drop --force \
+  && bin/console doctrine:database:create \
+  && bin/console doctrine:schema:create \
+  && bin/console doctrine:fixtures:load --no-interaction' 
 ```
 
 ## Frontend
@@ -38,11 +38,11 @@ docker exec -it php-fpm sh -c "vendor/bin/php-cs-fixer fix src/Service/Docker"
 
 # Test
 ```bash
-bin/console --env=test doctrine:database:drop --force
-bin/console --env=test doctrine:database:create
-bin/console --env=test doctrine:schema:create
-bin/console --env=test doctrine:fixtures:load --no-interaction 
-bin/phpunit
+docker exec -it php-fpm sh -c 'bin/console --env=test doctrine:database:drop --force \
+  && bin/console --env=test doctrine:database:create \
+  && bin/console --env=test doctrine:schema:create \
+  && bin/console --env=test doctrine:fixtures:load --no-interaction \ 
+  && bin/phpunit'
 ```
 
 # Docker development with SSL Certificate
@@ -62,4 +62,9 @@ sudo cp server.pem /root/.docker/cert.pem
 Edit OpenRC service configuration for docker and add ```DOCKER_OPTS="--host 0.0.0.0:2375 --tlsverify"```
 ```bash
 sudo nano /etc/conf.d/docker
+```
+
+# Debug
+```bash
+docker exec -it php-fpm sh -c "XDEBUG_CONFIG=\"idekey=PHPSTORM\" bin/console"
 ```

@@ -8,13 +8,48 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GetServiceTest extends WebTestCase
 {
+    use JsonAssertTrait;
+
     public function testGetServiceCollection(): void
     {
         $client = $this->createClient();
-        $client->request('GET', '/api/services');
-        $response = json_decode($client->getResponse()->getContent(), true);
+        $client->request('GET', '/api/service');
 
-        $this->markTestIncomplete();
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+
+        $this->assertJsonSchema(
+            [
+                'type' => 'array',
+                'items' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'uuid' => 'string',
+                        'name' => 'string',
+                        'type' => 'string',
+                        'status' => 'string',
+                        'location' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'name' => 'string',
+                                'country' => 'string',
+                                'type' => 'string'
+                            ],
+                        ],
+                        'properties' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'slots' => 'integer',
+                                'mapGroup' => 'string',
+                                'map' => 'string',
+                                'tickrate' => 'integer',
+                                'vac' => 'boolean',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            $client->getResponse()->getContent()
+        );
     }
 
 }

@@ -33,6 +33,12 @@ RUN addgroup -g 1001 php-user \
     && mkdir /app \
     && chown -R php-user:php-user /app
 
+RUN  apk add --no-cache fcgi && \
+     wget -O /usr/local/bin/php-fpm-healthcheck \
+      https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
+      && chmod +x /usr/local/bin/php-fpm-healthcheck \
+     && sed -i 's/^\;pm.status_path/pm.status_path/' /usr/local/etc/php-fpm.d/www.conf
+
 USER php-user
 
 WORKDIR /app

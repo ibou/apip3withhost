@@ -42,15 +42,25 @@ App\Entity\Location\LocationTypeEnum:
   locationTypeDocker:
     __factory: { DOCKER: [] }
 
+ArrayObject:
+  location_local_properties:
+    __construct:
+    - host: 192.168.56.10
+      port: 2376
+
 App\Entity\Location:
   location1:
     __construct:
+      name: 'Warsaw'
       country: '@locationCountryPL'
       type: '@locationTypeDocker'
+      properties: '@location_local_properties'
   location2:
     __construct:
+      name: 'Frankfurt'
       country: '@locationCountryDE'
       type: '@locationTypeDocker'
+      properties: '@location_local_properties'
 
 App\Entity\Service:
   service{1..2}:
@@ -58,8 +68,8 @@ App\Entity\Service:
       hostName: '<name()> <current()>'
       type: '@typeCSGO'
       status: '@status*'
-      ip: null
-      port: null
+      ip: '<ipv4()>'
+      port: '<numberBetween(27010, 28000)>'
       owner: '@user*'
       location: <randomValue(@location{1..2})>
       properties:

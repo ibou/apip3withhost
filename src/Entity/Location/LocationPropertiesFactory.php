@@ -12,8 +12,7 @@ class LocationPropertiesFactory
 
     public function createFromArray(LocationTypeEnum $type, array $properties): LocationPropertiesInterface
     {
-        $factory = $this->getFactory($type);
-        return $factory->createFromArray($properties);
+        return $this->getFactory($type)->createFromArray($properties);
     }
 
     private function getFactory(LocationTypeEnum $type): LocationPropertiesFactoryInterface

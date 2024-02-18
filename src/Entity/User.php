@@ -109,7 +109,6 @@ class User implements UserInterface
     public function removeService(Service $service): static
     {
         if ($this->services->removeElement($service)) {
-            // set the owning side to null (unless already changed)
             if ($service->getOwner() === $this) {
                 $service->setOwner(null);
             }

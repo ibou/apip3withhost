@@ -37,7 +37,7 @@ class GetServiceResource
 {
     #[ApiProperty(readable: false, identifier: true)]
     public ?Uuid $uuid;
-    public string $hostName;
+    public string $name;
     public ServiceTypeEnum $type;
     public ServiceStatusEnum $status;
 

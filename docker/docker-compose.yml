@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   postgres:
@@ -13,39 +13,49 @@ services:
     volumes:
       - database_data:/var/lib/postgresql/data:rw
     networks:
-      default:
-        ipv4_address: 172.20.0.3
+      main:
+        ipv4_address: 172.16.1.3
 
   php-fpm:
     image: tarach/php:8.2.8-fpm-alpine3.18
     container_name: php-fpm
     build:
-      dockerfile: ./docker/php-fpm/Dockerfile
+      dockerfile: php-fpm/Dockerfile
       context: .
     #command: sh -c "while true; do sleep 10; echo 'loop'; done"
     command: php-fpm
-    environment:
-      - VAR_DUMPER_SERVER=host.docker.internal:9912
+#    environment:
+#      - VAR_DUMPER_SERVER=host.docker.internal:9912
     volumes:
-      - ./:/app
+      - ../:/app
       - /var/run/docker.sock:/var/run/docker.sock:rw
     networks:
-      default:
-        ipv4_address: 172.20.0.2
+      main:
+        ipv4_address: 172.16.1.2
+    healthcheck:
+      test: php-fpm-healthcheck --listen-queue=10
+      interval: 10s
+      timeout: 30s
+      retries: 3
 
   nginx:
     image: tarach/nginx:1.25.2-alpine3.18-slim
     container_name: nginx
     build:
-      dockerfile: ./docker/nginx/Dockerfile
+      dockerfile: nginx/Dockerfile
       context: .
     #command: sh -c "while true; do sleep 10; echo 'loop'; done"
     command: nginx
-    restart: always
     ports:
       - 3000:80
     volumes:
-      - ./:/app
+      - ../:/app
+    networks:
+      main:
+        ipv4_address: 172.16.1.6
+    depends_on:
+      php-fpm:
+        condition: service_healthy
 
   rabbitmq:
     image: rabbitmq:3.12.4-management-alpine
@@ -56,10 +66,10 @@ services:
     ports:
       - "15672:15672"
     volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
+      - ./data:/var/lib/rabbitmq
     networks:
-      default:
-        ipv4_address: 172.20.0.4
+      main:
+        ipv4_address: 172.16.1.4
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -72,19 +82,18 @@ services:
     ports:
       - "6379:6379"
     networks:
-      default:
-        ipv4_address: 172.20.0.5
+      main:
+        ipv4_address: 172.16.1.5
 
 networks:
-  default:
+  main:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.20.0.1/16
+        - subnet: 172.16.1.0/24
 
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
-  rabbitmq-data:
