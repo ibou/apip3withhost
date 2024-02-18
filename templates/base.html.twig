@@ -24,7 +24,7 @@
             window.paths = JSON.parse('{{ frontRoutes|json_encode(constant('JSON_HEX_TAG'))|raw }}');
         </script>
         {% block javascripts %}
-            {{ importmap() }}
+{% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body id="root" class="bg-slate-600">
