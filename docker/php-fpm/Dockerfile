@@ -1,4 +1,4 @@
-FROM php:8.2.8-fpm-alpine3.18
+FROM php:8.3.3-fpm-alpine3.19
 
 RUN apk add --no-cache --virtual .build-deps autoconf build-base libpq-dev oniguruma-dev linux-headers rabbitmq-c-dev sqlite-dev icu-dev
 
