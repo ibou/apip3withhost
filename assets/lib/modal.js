@@ -33,7 +33,9 @@ class PleaseWaitModal extends ModalWindow
   refreshingElement;
   failureElement;
   textElement;
-
+  /**
+   * @param element {Element}
+   */
   constructor(element) {
     super(element);
     this.successElement = element.querySelector('.success');

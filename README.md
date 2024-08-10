@@ -7,7 +7,7 @@ docker-compose --env-file /app/.env -f /app/docker/docker-compose.yml -p cs2 up 
 
 ## Generate key-pair
 ```bash
-bin/console lexik:jwt:generate-keypair --skip-if-exists
+docker exec -it php-fpm sh -c 'bin/console lexik:jwt:generate-keypair --skip-if-exists'
 ```
 
 ## Database
@@ -20,20 +20,15 @@ docker exec -it php-fpm sh -c 'bin/console doctrine:database:drop --force \
 
 ## Frontend
 ```bash
-yarn install
-yarn run dev
-bin/console asset-map:compile --clean
+docker run -it --rm -v $(pwd):/app tarach/yarn-v1.22.19 sh -c "yarn install \
+  && yarn run dev"
+docker exec -it php-fpm sh -c 'bin/console importmap:update'
+docker exec -it php-fpm sh -c 'bin/console asset-map:compile'
 ```
 
 # Run Auth Worker
 ```bash
 docker exec -it php-fpm sh -c 'bin/console messenger:consume steamAuth -vv'
-```
-
-# Regenerating Docker API ( src/Service/Docker )
-```bash
-docker exec -it php-fpm sh -c "vendor/bin/jane-openapi generate"
-docker exec -it php-fpm sh -c "vendor/bin/php-cs-fixer fix src/Service/Docker"
 ```
 
 # Test

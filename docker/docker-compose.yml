@@ -57,6 +57,14 @@ services:
       php-fpm:
         condition: service_healthy
 
+  yarn:
+    image: tarach/yarn-v1.22.19
+    container_name: yarn
+    build:
+      dockerfile: yarn/Dockerfile
+      context: .
+    command: echo "started"
+
   rabbitmq:
     image: rabbitmq:3.12.4-management-alpine
     container_name: rabbitmq

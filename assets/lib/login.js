@@ -1,4 +1,6 @@
 import Timer from './timer.js';
+import Logger from './logger.js';
+import LoginView from './view/login.js';
 
 class GetAuthViaSteamRequest
 {
@@ -44,7 +46,6 @@ class PostAuthViaSteamRequest
             key = key.substring(key.indexOf('.') + 1);
             this.body[key] = value;
         });
-
     }
 
     async request()
@@ -97,14 +98,6 @@ export default class LoginController
      */
     timer = new Timer(30000);
     /**
-     * @type {String}
-     */
-    selector = '#login';
-    /**
-     * @type {null,Element}
-     */
-    loginButtonElement = null;
-    /**
      * @type {GetAuthViaSteamRequest|null}
      */
     getAuthRequest= null;
@@ -113,9 +106,6 @@ export default class LoginController
      */
     postAuthRequest = null;
 
-    _debug = false;
-    doHandle = false;
-    processedPostBind = false;
     authCheckingDelay = 400;
 
     /**
@@ -124,16 +114,33 @@ export default class LoginController
      */
     token = null;
 
-    constructor(router, modals, debug) {
+    /**
+     * @type {LoginView}
+     */
+    view;
+
+    /**
+     * @type {Logger}
+     */
+    logger;
+
+    /**
+     * @param router {Router}
+     * @param modals {ModalController}
+     * @param logger {Logger}
+     */
+    constructor(router, modals, logger) {
         this.router = router;
         this.modals = modals;
-        this._debug = debug;
+        this.view = new LoginView();
+        this.logger = logger;
     }
 
     bind()
     {
-        this.loginButtonElement = document.querySelector(this.selector);
-        this.loginButtonElement.onclick = () => {
+        this.view.bind();
+
+        this.view.onLoginButtonPress(() => {
             const params = new URLSearchParams({
                 'openid.ns': 'http://specs.openid.net/auth/2.0',
                 'openid.mode': 'checkid_setup',
@@ -144,45 +151,7 @@ export default class LoginController
             });
 
             document.location.href = 'https://steamcommunity.com/openid/login?' + params.toString();
-        };
-    }
-
-    async postBind()
-    {
-        if (!this.doHandle) {
-            this.processedPostBind = true;
-            return false;
-        }
-
-        this.router.cleanupAddress();
-        this.modals.pleaseWaitModal.toggleHideShow();
-
-        this.timer.start();
-
-        this.postAuthRequest = new PostAuthViaSteamRequest(this.router.query);
-        let response = await this.postAuthRequest.request();
-        this.debug({ PostAuthViaSteamResponse: response, PostAuthViaSteamRequest: this.postAuthRequest });
-
-        if (202 !== response.status) {
-            this.setAuthFailedState();
-        }
-
-        this.startCheckingAuth(this.postAuthRequest.getUuid())
-            .then(
-                (result) => {
-                    result.isAuthenticated
-                        ? this.setAuthSuccessState()
-                        : this.setAuthFailedState()
-                    ;
-                    this.token = result.token;
-                },
-                () => {
-                    this.setAuthFailedState();
-                }
-            );
-
-
-        this.processedPostBind = true;
+        });
     }
 
     async startCheckingAuth(uuid)
@@ -192,7 +161,7 @@ export default class LoginController
             const func = async () => {
                 this.getAuthRequest = new GetAuthViaSteamRequest(uuid);
                 const response = await this.getAuthRequest.request();
-                this.debug({ GetAuthViaSteamResponse: response, GetAuthViaSteamRequest: this.getAuthRequest });
+                this.logger.debug({ GetAuthViaSteamResponse: response, GetAuthViaSteamRequest: this.getAuthRequest });
 
                 if (200 !== response.status || this.timer.hasFinished()) {
                     reject();
@@ -235,24 +204,39 @@ export default class LoginController
         this.modals.pleaseWaitModal.hideAfterDelay();
     }
 
-    handle()
+    async handle()
     {
         if (!this.router.hasQuery()) {
             return false;
         }
 
-        this.doHandle = true;
-        if (this.processedPostBind) {
-            this.postBind();
+        this.router.cleanupAddress();
+        this.modals.pleaseWaitModal.toggleHideShow();
+
+        this.timer.start();
+
+        this.postAuthRequest = new PostAuthViaSteamRequest(this.router.query);
+        let response = await this.postAuthRequest.request();
+        this.logger.debug({ PostAuthViaSteamResponse: response, PostAuthViaSteamRequest: this.postAuthRequest });
+
+        if (202 !== response.status) {
+            this.setAuthFailedState();
         }
+
+        this.startCheckingAuth(this.postAuthRequest.getUuid())
+            .then(
+                (result) => {
+                    result.isAuthenticated
+                        ? this.setAuthSuccessState()
+                        : this.setAuthFailedState()
+                    ;
+                    this.token = result.token;
+                },
+                () => {
+                    this.setAuthFailedState();
+                }
+            );
 
         return true;
-    }
-
-    debug(args)
-    {
-        if (this._debug) {
-            console.debug(args);
-        }
     }
 }

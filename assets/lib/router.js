@@ -2,9 +2,9 @@
 export default class Router
 {
     paths;
-    constructor(paths)
+    constructor()
     {
-        this.paths = window.paths;
+        this.paths = window.paths; // @see base.html.twig
         this.query = window.location.search;
         window.onpopstate = this.handleLocationChange;
     }
