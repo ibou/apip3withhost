@@ -534,6 +534,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .flex-c {
   display: flex;
   align-items: center;
@@ -1222,6 +1226,18 @@ video {
 
 .btn-shadow {
   box-shadow: 0 14px 20px 0 rgba(0, 0, 0, 0.30);
+}
+
+@media not all and (min-width: 1024px) {
+  .max-lg\:hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:hidden {
+    display: none !important;
+  }
 }
 
 .hover\:bg-gray-100:hover {
